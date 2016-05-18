@@ -86,8 +86,9 @@ gulp.task('html', ['views', 'styles', 'scripts'], () => {
     .pipe(gulp.dest('dist'));
 });
 
+//Images
 gulp.task('images', () => {
-  return gulp.src('app/images/**/*')
+  return gulp.src(['app/images/**/*.png','app/images/**/*.jpg','app/images/**/*.gif','app/images/**/*.svg'])
     .pipe($.cache($.imagemin({
       progressive: true,
       interlaced: true,
@@ -95,6 +96,12 @@ gulp.task('images', () => {
       // as hooks for embedding and styling
       svgoPlugins: [{cleanupIDs: false}]
     })))
+    .pipe(gulp.dest('dist/images'));
+});
+
+//Videos
+gulp.task('video', () => {
+  return gulp.src(['app/images/**/*.mp4','app/images/**/*.ogv','app/images/**/*.webm'])
     .pipe(gulp.dest('dist/images'));
 });
 
@@ -200,7 +207,7 @@ gulp.task('wiredep', () => {
     .pipe(gulp.dest('app/layouts'));
 });
 
-gulp.task('build', ['lint', 'html', 'images', 'sprite', 'fonts', 'extras'], () => {
+gulp.task('build', ['lint', 'html', 'images', 'sprite', 'fonts', 'extras', 'video'], () => {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 
